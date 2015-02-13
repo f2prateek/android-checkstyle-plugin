@@ -25,7 +25,7 @@ dependencies {
 }
 
 group = 'com.f2prateek.checkstyle'
-version = '1.0.0'
+version = '1.0.1-SNAPSHOT'
 
 install {
   repositories.mavenInstaller {
