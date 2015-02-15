@@ -14,7 +14,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath 'com.f2prateek.checkstyle:checkstyle:1.0.0-SNAPSHOT'
+    classpath 'com.f2prateek.checkstyle:checkstyle:1.0.0'
   }
 }
 
