@@ -18,34 +18,26 @@ class AndroidCheckstylePlugin implements Plugin<Project> {
       throw new StopExecutionException("Must be applied with 'checkstyle' plugin.")
     }
 
+    def variants
     if (hasPlugin(project, AppPlugin)) {
-      project.android.applicationVariants.all { variant ->
-        // todo: is there a common variant? can we move this into a reusable method for library?
-        def name = variant.buildType.name
-        def checkstyle = project.tasks.create "checkstyle${name.capitalize()}", Checkstyle
-        checkstyle.dependsOn variant.javaCompile
-        checkstyle.source variant.javaCompile.source
-        checkstyle.classpath = project.fileTree(variant.javaCompile.destinationDir)
-        checkstyle.exclude('**/BuildConfig.java')
-        checkstyle.exclude('**/R.java')
-        checkstyle.showViolations true
-        project.tasks.getByName("check").dependsOn checkstyle
-      }
+      variants = project.android.applicationVariants
     } else if (hasPlugin(project, LibraryPlugin)) {
-      project.android.libraryVariants.all { variant ->
-        def name = variant.buildType.name
-        def checkstyle = project.tasks.create "checkstyle${name.capitalize()}", Checkstyle
-        checkstyle.dependsOn variant.javaCompile
-        checkstyle.source variant.javaCompile.source
-        checkstyle.classpath = project.fileTree(variant.javaCompile.destinationDir)
-        checkstyle.exclude('**/BuildConfig.java')
-        checkstyle.exclude('**/R.java')
-        checkstyle.showViolations true
-        project.tasks.getByName("check").dependsOn checkstyle
-      }
+      variants = project.android.libraryVariants
     } else {
       throw new StopExecutionException(
           "Must be applied with 'android' or 'android-library' plugin.")
+    }
+
+    variants.all { variant ->
+      def name = variant.buildType.name
+      def checkstyle = project.tasks.create "checkstyle${name.capitalize()}", Checkstyle
+      checkstyle.dependsOn variant.javaCompile
+      checkstyle.source variant.javaCompile.source
+      checkstyle.classpath = project.fileTree(variant.javaCompile.destinationDir)
+      checkstyle.exclude('**/BuildConfig.java')
+      checkstyle.exclude('**/R.java')
+      checkstyle.showViolations true
+      project.tasks.getByName("check").dependsOn checkstyle
     }
   }
 
