@@ -29,7 +29,7 @@ class AndroidCheckstylePlugin implements Plugin<Project> {
     }
 
     variants.all { variant ->
-      def name = variant.buildType.name
+      def name = variant.name
       def checkstyle = project.tasks.create "checkstyle${name.capitalize()}", Checkstyle
       checkstyle.dependsOn variant.javaCompile
       checkstyle.source variant.javaCompile.source
