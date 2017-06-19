@@ -31,6 +31,7 @@ class AndroidCheckstylePlugin implements Plugin<Project> {
     variants.all { variant ->
       def name = variant.name
       def checkstyle = project.tasks.create "checkstyle${name.capitalize()}", Checkstyle
+      checkstyle.group = "Verification"
       checkstyle.dependsOn variant.javaCompile
       checkstyle.source variant.javaCompile.source
       checkstyle.classpath = project.fileTree(variant.javaCompile.destinationDir)
