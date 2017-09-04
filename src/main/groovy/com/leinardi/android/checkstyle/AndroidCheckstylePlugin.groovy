@@ -1,6 +1,8 @@
 package com.leinardi.android.checkstyle
 
 import com.android.build.gradle.AppPlugin
+import com.android.build.gradle.LibraryPlugin
+import org.gradle.api.Plugin
 
 /*
     Copyright 2017 Roberto Leinardi
@@ -17,21 +19,18 @@ import com.android.build.gradle.AppPlugin
     See the License for the specific language governing permissions and
     limitations under the License.
  */
-import com.android.build.gradle.LibraryPlugin
-import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.quality.Checkstyle
 import org.gradle.api.plugins.quality.CheckstylePlugin
 import org.gradle.api.tasks.StopExecutionException
-
 /**
  * A plugin that lets you use the checkstyle plugin for Android projects.
  */
 class AndroidCheckstylePlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
-        if (!hasPlugin(project, CheckstylePlugin)) {
-            throw new StopExecutionException("Must be applied with 'checkstyle' plugin.")
+        project.plugins.with {
+            apply CheckstylePlugin
         }
 
         def variants

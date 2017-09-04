@@ -10,19 +10,18 @@ Usage
 Apply the plugin in your `build.gradle` along with the regular 'checkstyle' plugin:
 ```groovy
 buildscript {
-  repositories {
-    mavenCentral()
-  }
-  dependencies {
-    classpath 'com.leinardi.android:checkstyle:1.0.0'
-  }
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.leinardi.android:android-checkstyle-plugin:1.0.0'
+    }
 }
 
-apply plugin: 'checkstyle'
 apply plugin: 'com.leinardi.android.checkstyle'
 
 checkstyle {
-  configFile rootProject.file('gradle/checkstyle.xml') // points to your checkstyle config
+    configFile rootProject.file('gradle/checkstyle.xml') // points to your checkstyle config
 }
 ```
 
