@@ -14,12 +14,12 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath 'com.f2prateek.checkstyle:checkstyle:1.0.1'
+    classpath 'com.leinardi.android:checkstyle:1.0.0'
   }
 }
 
 apply plugin: 'checkstyle'
-apply plugin: 'com.f2prateek.checkstyle'
+apply plugin: 'com.leinardi.android.checkstyle'
 
 checkstyle {
   configFile rootProject.file('gradle/checkstyle.xml') // points to your checkstyle config
@@ -33,7 +33,7 @@ checkstyle {
 License
 --------
 
-    Copyright 2015 Prateek Srivastava
+    Copyright 2017 Roberto Leinardi
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
