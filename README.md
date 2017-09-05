@@ -10,30 +10,28 @@ Usage
 Apply the plugin in your `build.gradle` along with the regular 'checkstyle' plugin:
 ```groovy
 buildscript {
-  repositories {
-    mavenCentral()
-  }
-  dependencies {
-    classpath 'com.f2prateek.checkstyle:checkstyle:1.0.1'
-  }
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.leinardi.android:android-checkstyle-plugin:1.0.0'
+    }
 }
 
-apply plugin: 'checkstyle'
-apply plugin: 'com.f2prateek.checkstyle'
+apply plugin: 'com.leinardi.android.checkstyle'
 
 checkstyle {
-  configFile rootProject.file('gradle/checkstyle.xml') // points to your checkstyle config
+    ignoreFailures = true // Whether this task will ignore failures and continue running the build.
+    configFile rootProject.file('config/checkstyle/checkstyle.xml') // The Checkstyle configuration file to use.
+    toolVersion = '8.2' // The version of Checkstyle you want to be used
 }
 ```
-
-
-
 
 
 License
 --------
 
-    Copyright 2015 Prateek Srivastava
+    Copyright 2017 Roberto Leinardi
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
