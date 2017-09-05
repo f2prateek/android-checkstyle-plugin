@@ -51,10 +51,26 @@ pluginBundle {
     }
 }
 
+// custom tasks for creating source/javadoc jars
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+// add javadoc/source jar tasks as artifacts
+artifacts {
+    archives sourcesJar, javadocJar
+}
+
 bintray {
     user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
     key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
-    publications = ['MyPublication']
+    publications = ['mavenJava']
     dryRun = false //[Default: false] Whether to run this as dry-run, without deploying
     publish = true //[Default: false] Whether version should be auto published after an upload
     override = false //[Default: false] Whether to override version artifacts already published
@@ -63,6 +79,8 @@ bintray {
         name = ARTIFACT_ID
         userOrg = user
         licenses = ['Apache-2.0']
+        websiteUrl = WEBSITE
+        issueTrackerUrl = ISSUE_TRACKER_URL
         vcsUrl = VCS_URL
         labels = TAGS.split(',')
         version {
@@ -71,16 +89,45 @@ bintray {
         }
     }
 
+    // Create the pom configuration:
+    def pomConfig = {
+        licenses {
+            license {
+                name "The Apache Software License, Version 2.0"
+                url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                distribution "repo"
+            }
+        }
+        developers {
+            developer {
+                id user
+                name "Roberto Leinardi"
+                email "roberto@leinardi.com"
+            }
+        }
+
+        scm {
+            url VCS_URL
+        }
+    }
+
     publishing {
         publications {
-            MyPublication(MavenPublication) {
+            mavenJava(MavenPublication) {
                 from components.java
+                artifact sourcesJar
+                artifact javadocJar
                 groupId GROUP_ID
                 artifactId ARTIFACT_ID
                 version VERSION
+                pom.withXml {
+                    def root = asNode()
+                    root.appendNode('description', DESCRIPTION)
+                    root.appendNode('name', ARTIFACT_ID)
+                    root.appendNode('url', WEBSITE)
+                    root.children().last() + pomConfig
+                }
             }
         }
     }
 }
-
-
