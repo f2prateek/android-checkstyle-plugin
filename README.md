@@ -21,12 +21,11 @@ buildscript {
 apply plugin: 'com.leinardi.android.checkstyle'
 
 checkstyle {
-    configFile rootProject.file('gradle/checkstyle.xml') // points to your checkstyle config
+    ignoreFailures = true // Whether this task will ignore failures and continue running the build.
+    configFile rootProject.file('config/checkstyle/checkstyle.xml') // The Checkstyle configuration file to use.
+    toolVersion = '8.2' // The version of Checkstyle you want to be used
 }
 ```
-
-
-
 
 
 License
